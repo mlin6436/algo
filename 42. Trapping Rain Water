@@ -1,0 +1,43 @@
+https://leetcode.com/problems/trapping-rain-water/
+
+class Solution {
+    public int trap(int[] height) {
+        int len = height.length;
+        int[] temp = new int[len];
+        
+        int leftSlow = 0;
+        int leftFast = leftSlow + 1;
+        while (leftFast < len) {
+            if (height[leftFast] >= height[leftSlow]) {
+                int curHeight = height[leftSlow];
+                for (int i = leftSlow + 1; i < leftFast; i++) {
+                    temp[i] = curHeight - height[i];
+                }
+                leftSlow = leftFast;
+            } 
+            leftFast++;
+        }
+
+        int rightSlow = len - 1;
+        int rightFast = rightSlow - 1;
+        while (rightFast >= 0) {
+            if (height[rightFast] >= height[rightSlow]) {
+                int curHeight = height[rightSlow];
+                for (int i = rightSlow - 1; i > rightFast; i--) {
+                    int diff = curHeight - height[i];
+                    temp[i] = Math.max(temp[i], diff);
+                }
+                rightSlow = rightFast;
+            }
+            rightFast--;
+        }
+
+        int res = 0;
+        for (int t : temp) {
+            res += t;
+        }
+
+        return res; 
+    }
+}
+
