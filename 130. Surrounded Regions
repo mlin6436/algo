@@ -1,0 +1,55 @@
+https://leetcode.com/problems/surrounded-regions/
+
+class Solution {
+    public void solve(char[][] board) {
+        int maxRows = board.length - 1;
+        int maxCols = board[0].length - 1;
+        
+        for (int col = 0; col <= maxCols; col++) {
+            if (board[0][col] == 'O') {
+                fill(board, 0, col);
+            }
+            if (board[maxRows][col] == 'O') {
+                fill(board, maxRows, col);
+            }
+        }
+        
+        for (int row = 0; row <= maxRows; row++) {
+            if (board[row][0] == 'O') {
+                fill(board, row, 0);
+            }
+            if (board[row][maxCols] == 'O') {
+                fill(board, row, maxCols);
+            }
+        }
+        
+        for (int row = 0; row <= maxRows; row++) {
+            for (int col = 0; col <= maxCols; col++) {
+                board[row][col] = board[row][col] == '*' ? 'O' : 'X';                    
+            }
+        }
+       
+    }
+    
+    private void fill(char[][] board, int row, int col) {
+        int[][] dirs = {{1,0},{0,1},{-1,0},{0,-1}};
+        int rows = board.length;
+        int cols = board[0].length;
+        
+        Queue<int[]> q = new LinkedList();
+        q.offer(new int[]{row,col});
+        board[row][col] = '*';
+        
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            for (int[] dir : dirs) {
+                int r = cur[0] + dir[0];
+                int c = cur[1] + dir[1];
+                if (r >= 0 && c >= 0 && r < rows && c < cols && board[r][c] == 'O') {
+                    q.offer(new int[]{r,c});
+                    board[r][c] = '*';
+                }
+            }  
+        }
+    }
+}
