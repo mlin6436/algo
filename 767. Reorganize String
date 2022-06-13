@@ -1,0 +1,44 @@
+https://leetcode.com/problems/reorganize-string/
+
+class Solution {
+    public String reorganizeString(String s) {
+        Map<Character, Integer> map = new HashMap();
+        for (char c : s.toCharArray()) {
+            map.put(c, map.getOrDefault(c, 0) + 1);
+        }
+        
+        int max = map.entrySet().stream()
+            .max((e1, e2) -> e1.getValue() > e2.getValue() ? 1 : -1)
+            .get().getValue();
+        int sum = map.values().stream().reduce(0, Integer::sum);
+        
+        if (max * 2 > sum + 1) {
+            return "";
+        } else {
+            String res = "";
+            PriorityQueue<Character> pq = new PriorityQueue((a,b) -> map.get(b) - map.get(a));
+            pq.addAll(map.keySet());
+            while (pq.size() >= 2) {
+                char cur = pq.poll();
+                char next = pq.poll();
+                
+                res += cur;
+                res += next;
+                
+                map.put(cur, map.getOrDefault(cur, 0) - 1);
+                map.put(next, map.getOrDefault(next, 0) - 1);
+                
+                if (map.get(cur) > 0) {
+                    pq.offer(cur);
+                }
+                if (map.get(next) > 0) {
+                    pq.offer(next);
+                }
+            }
+            if (pq.size() > 0) {
+                res += pq.poll();
+            }
+            return res;
+        }
+    }
+}
