@@ -1,0 +1,63 @@
+https://leetcode.com/problems/valid-palindrome-ii/
+
+class Solution {
+    public boolean validPalindrome(String s) {
+        return isPalindrome(s, 0, s.length() - 1, 1);
+    }
+    
+    private boolean isPalindrome(String s, int left, int right, int flag) {
+        while (left <= right) {
+            if (s.charAt(left) == s.charAt(right)) {
+                left++;
+                right--;
+            } else {
+                if (flag < 1) {
+                    return false;
+                }
+                
+                return isPalindrome(s, left + 1, right, flag - 1) || isPalindrome(s, left, right - 1, flag - 1);
+            }
+        }
+        
+        return true;
+    }
+}
+
+====
+
+class Solution {
+    public boolean validPalindrome(String s) {
+        int len = s.length();
+        
+        if (len == 0) {
+            return false;
+        }
+        
+        for (int i = 0; i < len; i++) {
+            if (isPalindrome(s, i)) {
+                return true;
+            }
+        }
+        
+        return false;        
+    }
+    
+    private boolean isPalindrome(String s, int skip) {
+        int left = 0;
+        int right = s.length() - 1;
+        while (left < right) {
+            if (skip == left) {
+                left++;
+            }
+            if (skip == right) {
+                right--;
+            }
+            if (s.charAt(left) != s.charAt(right)) {
+                return false;
+            }
+            left++;
+            right--;
+        }
+        return true;
+    }
+}
