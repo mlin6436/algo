@@ -4,6 +4,55 @@ class Solution {
     public int orangesRotting(int[][] grid) {
         int rows = grid.length;
         int cols = grid[0].length;
+        
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                if (grid[row][col] == 2) {
+                    dfs(grid, rows, cols, row, col, 2);
+                }
+            }
+        }
+        
+        int res = 2;
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                if (grid[row][col] == 1) {
+                    return -1;
+                } else {
+                    res = Math.max(res, grid[row][col]);
+                }
+            }
+        }
+        
+        return res - 2;
+    }
+    
+    private void dfs(int[][] grid, int rows, int cols, int row, int col, int step) {
+        if (row < 0 || 
+            row >= rows || 
+            col < 0 || 
+            col >= cols || 
+            grid[row][col] == 0 ||
+            grid[row][col] > 1 && grid[row][col] < step
+           ) {
+            return;
+        }
+        
+        grid[row][col] = step;
+        
+        dfs(grid, rows, cols, row + 1, col, step + 1);
+        dfs(grid, rows, cols, row - 1, col, step + 1);
+        dfs(grid, rows, cols, row, col + 1, step + 1);
+        dfs(grid, rows, cols, row, col - 1, step + 1);
+    }
+}
+
+====
+
+class Solution {
+    public int orangesRotting(int[][] grid) {
+        int rows = grid.length;
+        int cols = grid[0].length;
         int[][] dirs = {{1,0},{0,1},{-1,0},{0,-1}};
         Queue<int[]> q = new LinkedList();
         int count = 0;
