@@ -4,6 +4,26 @@ class Solution {
     public int[] topKFrequent(int[] nums, int k) {
         Map<Integer, Integer> map = new HashMap();
         for (int num : nums) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+        PriorityQueue<Map.Entry<Integer, Integer>> pq = new PriorityQueue<>((a,b) -> b.getValue() - a.getValue());
+        pq.addAll(map.entrySet());
+        int[] res = new int[k];
+        while (k > 0) {
+            int temp = pq.poll().getKey();
+            res[k - 1] = temp;
+            k--;
+        }
+        return res;
+    }
+}
+
+====
+
+class Solution {
+    public int[] topKFrequent(int[] nums, int k) {
+        Map<Integer, Integer> map = new HashMap();
+        for (int num : nums) {
             map.put(num, map.getOrDefault(num, 0) + 1);            
         }
         
