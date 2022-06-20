@@ -1,0 +1,40 @@
+https://leetcode.com/problems/shortest-path-in-binary-matrix/
+
+class Solution {
+    public int shortestPathBinaryMatrix(int[][] grid) {
+        int rows = grid.length;
+        int cols = grid[0].length;
+        
+        if (grid[0][0] != 0 || grid[rows - 1][cols - 1] != 0) {
+            return -1;
+        }
+
+        int[][] dirs = {{-1,-1},{-1,0},{-1,1},{0,-1},{0,1},{1,-1},{1,0},{1,1}};
+        Queue<int[]> q = new LinkedList();
+        q.offer(new int[]{0,0});
+        int steps = 1;
+        while (!q.isEmpty()) {
+            int size = q.size();
+            while (size > 0) {
+                int[] cur = q.poll();
+                grid[cur[0]][cur[1]] = 1;
+                if (cur[0] == rows - 1 && cur[1] == cols - 1) {
+                    return steps++;
+                }
+                for (int[] dir : dirs) {
+                    int r = cur[0] + dir[0];
+                    int c = cur[1] + dir[1];
+                    if (r < 0 || r >= rows || c < 0 || c >= cols || grid[r][c] == 1) {
+                        continue;
+                    }
+                    q.offer(new int[]{r,c});
+                    grid[r][c] = 1;
+                }
+                size--;
+            }
+            steps++;
+        }
+        
+        return -1;
+    }
+}
