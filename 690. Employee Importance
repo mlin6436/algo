@@ -1,0 +1,35 @@
+https://leetcode.com/problems/employee-importance/
+
+/*
+// Definition for Employee.
+class Employee {
+    public int id;
+    public int importance;
+    public List<Integer> subordinates;
+};
+*/
+
+class Solution {
+    public int getImportance(List<Employee> employees, int id) {
+        Map<Integer, Employee> map = new HashMap();
+        for (Employee e : employees) {
+            map.put(e.id, e);
+        }
+        
+        if (map.get(id) == null) {
+            return 0;
+        }
+        
+        int res = 0;
+        Queue<Employee> q = new LinkedList();
+        q.offer(map.get(id));
+        while (!q.isEmpty()) {
+            Employee cur = q.poll();
+            res += cur.importance;
+            for (Integer subordinate : cur.subordinates) {
+                q.offer(map.get(subordinate));
+            }
+        }
+        return res;
+    }
+}
