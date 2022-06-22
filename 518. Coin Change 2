@@ -1,0 +1,65 @@
+https://leetcode.com/problems/coin-change-2/
+
+class Solution {
+    public int change(int amount, int[] coins) {
+        int n = coins.length;
+        int[][] table = new int[n][amount + 1];
+        
+        for (int i = 0; i <= amount; i++) {
+            if (i % coins[0] == 0) {
+                table[0][i] = 1;    
+            } else {
+                table[0][i] = 0;
+            }
+        }
+        
+        for (int i = 1; i < n; i++) {
+            for (int target = 0; target <= amount; target++) {
+                int existing = table[i - 1][target];
+                int addition = 0;
+                if (coins[i] <= target) {
+                    int j = target - coins[i];
+                    addition = table[i][j];
+                }
+                table[i][target] = existing + addition;
+            }
+        }
+        
+        return table[n - 1][amount];
+    }
+}
+
+// tabulation
+//        0 1 2 3 4 5
+// '1     1 1 1 1 1 1
+// 1,'2   1 1 2 2 3 3
+// 1,2,'5 1 1 2 2 3 4
+
+====
+
+class Solution {
+    public int change(int amount, int[] coins) {
+        List<Integer> temp = new ArrayList();
+        Set<List<Integer>> res = new HashSet();
+        bt(amount, coins, temp, res);
+        return res.size();
+    }
+    
+    private void bt(int amount, int[] coins, List<Integer> temp, Set<List<Integer>> res) {
+        if (amount < 0) {
+            return;
+        } else if (amount == 0) {
+            if (!res.contains(temp)) {
+                Collections.sort(temp);
+                res.add(temp);
+            }
+            return;
+        }
+        
+        for (int coin: coins) {
+            List<Integer> newTemp = new ArrayList<>(temp);
+            newTemp.add(coin);
+            bt(amount - coin, coins, newTemp, res);
+        }
+    }
+}
