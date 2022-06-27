@@ -1,0 +1,28 @@
+https://leetcode.com/problems/minimum-deletions-to-make-character-frequencies-unique/
+
+class Solution {
+    public int minDeletions(String s) {
+        int[] freq = new int[26];
+        for (char c : s.toCharArray()) {
+            freq[c - 'a']++;
+        }
+        PriorityQueue<Integer> pq = new PriorityQueue<>((a, b) -> (b - a));
+        for (int f : freq) {
+            if (f != 0) {
+                pq.offer(f);
+            }
+        }
+        int res = 0;
+        int cur = 0;
+        while (pq.size() > 1) {
+            cur = pq.poll();
+            if (cur == pq.peek()) {
+                if (cur - 1 > 0) {
+                    pq.offer(cur - 1);    
+                }
+                res++;
+            }
+        }
+        return res;
+    }
+}
