@@ -1,0 +1,38 @@
+https://leetcode.com/problems/jump-game-iii/
+
+class Solution {
+    public boolean canReach(int[] arr, int start) {
+        int len = arr.length;
+        Queue<Integer> q = new LinkedList();
+        q.offer(start);
+        while (!q.isEmpty()) {
+            int size = q.size();
+            while (size > 0) {
+                int cur = q.poll();
+                if (arr[cur] == 0) {
+                    return true;
+                }
+                if (arr[cur] != -1) {
+                    int curV = arr[cur];
+                    arr[cur] = -1;
+                    int next = cur + curV;
+                    if (next < len) {
+                        if (arr[next] == 0) {
+                            return true;
+                        }
+                        q.offer(next);
+                    }
+                    int prev = cur - curV;
+                    if (prev >= 0) {
+                        if (arr[prev] == 0) {
+                            return true;
+                        }
+                        q.offer(prev);
+                    }
+                }
+                size--;
+            }
+        }
+        return false;
+    }
+}
