@@ -1,0 +1,26 @@
+https://leetcode.com/problems/132-pattern/
+
+class Solution {
+    public boolean find132pattern(int[] nums) {
+        var len = nums.length;
+        if (len < 3) {
+            return false;
+        }
+        
+        var stack = new Stack<MinAndMax>();
+        var min = nums[0]; 
+        for (int i = 1; i < len; i++) {
+            while (!stack.isEmpty() && nums[i] >= stack.peek().max) {
+                stack.pop();
+            }
+            if (!stack.isEmpty() && nums[i] > stack.peek().min) {
+                return true;
+            }
+            stack.push(new MinAndMax(min, nums[i]));
+            min = Math.min(min, nums[i]);
+        }
+        return false;
+    }
+    
+    public record MinAndMax(int min, int max) {}
+}
