@@ -1,0 +1,35 @@
+https://leetcode.com/problems/valid-sudoku/
+
+class Solution {
+    public boolean isValidSudoku(char[][] board) {
+        int m = board.length;
+        int n = board[0].length;
+        Map<Integer, Set<Integer>> mapRow = new HashMap();    
+        Map<Integer, Set<Integer>> mapCol = new HashMap();    
+        Map<Integer, Set<Integer>> map3x3 = new HashMap();    
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                int id = (i / 3) * 3 + j / 3;
+                if (board[i][j] != '.' && 
+                    (!isValid(mapRow, i, board[i][j]) ||
+                     !isValid(mapCol, j, board[i][j]) ||
+                     !isValid(map3x3, id, board[i][j])
+                    )) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    
+    private boolean isValid(Map<Integer, Set<Integer>> map, int k, int v) {
+        Set<Integer> set = map.getOrDefault(k, new HashSet<>());
+        if (set.contains(v)) {
+            return false;
+        } else {
+            set.add(v);
+            map.put(k, set);
+            return true;    
+        }
+    }
+}
