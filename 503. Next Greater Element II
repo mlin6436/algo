@@ -1,0 +1,22 @@
+https://leetcode.com/problems/next-greater-element-ii/
+
+class Solution {
+    public int[] nextGreaterElements(int[] nums) {
+        var stack = new Stack<Integer>();
+        for (int i = nums.length - 1; i >= 0; i--) {
+            while (!stack.isEmpty() && stack.peek() <= nums[i]) {
+                stack.pop();
+            }
+            stack.push(nums[i]);
+        }
+        var res = new int[nums.length];
+        for (int i = nums.length - 1; i >= 0; i--) {
+            while (!stack.isEmpty() && stack.peek() <= nums[i]) {
+                stack.pop();
+            }
+            res[i] = stack.isEmpty() ? -1 : stack.peek();
+            stack.push(nums[i]);
+        }
+        return res;
+    }
+}
