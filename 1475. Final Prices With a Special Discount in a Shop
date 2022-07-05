@@ -1,0 +1,20 @@
+https://leetcode.com/problems/final-prices-with-a-special-discount-in-a-shop/
+
+class Solution {
+    public int[] finalPrices(int[] prices) {
+        var stack = new Stack<int[]>();
+        var res = new int[prices.length];
+        for (int i = 0; i < prices.length; i++) {
+            while (!stack.isEmpty() && prices[i] <= stack.peek()[1]) {
+                int[] top = stack.pop();
+                res[top[0]] = top[1] - prices[i];
+            }
+            stack.push(new int[]{i, prices[i]});
+        }
+        while (!stack.isEmpty()) {
+            int[] top = stack.pop();   
+            res[top[0]] = top[1];
+        }
+        return res;
+    }
+}
