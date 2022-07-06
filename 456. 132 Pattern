@@ -2,6 +2,30 @@ https://leetcode.com/problems/132-pattern/
 
 class Solution {
     public boolean find132pattern(int[] nums) {
+        var stack = new Stack<int[]>();
+        var min = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            while (!stack.isEmpty() && stack.peek()[1] <= nums[i]) {
+                stack.pop();
+            }
+            if (!stack.isEmpty() && stack.peek()[0] < nums[i]) {
+                return true;
+            }
+                
+            if (nums[i] < min) {
+                min = nums[i];
+            } else {
+                stack.push(new int[]{min, nums[i]});
+            }
+        }
+        return false;
+    }
+}
+
+====
+
+class Solution {
+    public boolean find132pattern(int[] nums) {
         var len = nums.length;
         if (len < 3) {
             return false;
