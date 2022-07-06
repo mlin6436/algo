@@ -1,0 +1,29 @@
+https://leetcode.com/problems/daily-temperatures/
+
+class Solution {
+    public int[] dailyTemperatures(int[] temperatures) {
+        var len = temperatures.length;
+        var res = new int[len];
+        var stack = new Stack<Integer>();
+        for (int i = len - 1; i >= 0; i--) {
+            while (!stack.isEmpty() && temperatures[i] >= temperatures[stack.peek()]) {
+                int top = stack.pop();
+                if (stack.isEmpty()) {
+                    res[top] = 0;    
+                } else {
+                    res[top] = stack.peek() - top;
+                }
+            }
+            stack.push(i);
+        }
+        while (!stack.isEmpty()) {
+            int top = stack.pop();
+            if (stack.isEmpty()) {
+                res[top] = 0;    
+            } else {
+                res[top] = stack.peek() - top;
+            }
+        }
+        return res;
+    }
+}
