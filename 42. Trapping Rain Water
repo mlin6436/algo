@@ -2,6 +2,44 @@ https://leetcode.com/problems/trapping-rain-water/
 
 class Solution {
     public int trap(int[] height) {
+        var len = height.length;
+        var tmp = new int[len];
+        
+        var left = 0;
+        var right = left + 1;
+        for (; right < len; right++) {
+            if (height[right] >= height[left]) {
+                for (int i = left + 1; i < right; i++) {
+                    tmp[i] = height[left] - height[i];
+                }
+                left = right;
+            } 
+        }
+        
+        right = len - 1;
+        left = right - 1;
+        for (; left >= 0; left--) {
+            if (height[left] >= height[right]) {
+                for (int i = right - 1; i > left; i--) {
+                    int cur = height[right] - height[i];
+                    tmp[i] = Math.max(cur, tmp[i]);
+                }
+                right = left;
+            }
+        }
+        
+        var res = 0;
+        for (int i = 0; i < len; i++) {
+            res += tmp[i];
+        }
+        return res;
+    }
+}
+
+====
+
+class Solution {
+    public int trap(int[] height) {
         int len = height.length;
         int[] temp = new int[len];
         
