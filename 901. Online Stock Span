@@ -1,6 +1,35 @@
 https://leetcode.com/problems/online-stock-span/
 
 class StockSpanner {
+    Stack<int[]> stack;
+    int count;
+
+    public StockSpanner() {
+        stack = new Stack<int[]>();
+        count = 0;
+    }
+    
+    public int next(int price) {
+        count++;
+        while (!stack.isEmpty() && price >= stack.peek()[1]) {
+            int[] top = stack.pop();
+        }
+        
+        int res = stack.isEmpty() ? count : count - stack.peek()[0];
+        stack.push(new int[]{count, price});
+        return res;
+    }
+}
+
+/**
+ * Your StockSpanner object will be instantiated and called as such:
+ * StockSpanner obj = new StockSpanner();
+ * int param_1 = obj.next(price);
+ */
+
+====
+
+class StockSpanner {
     
     Stack<int[]> stack;
     int days;
