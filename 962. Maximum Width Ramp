@@ -1,0 +1,24 @@
+https://leetcode.com/problems/maximum-width-ramp/
+
+class Solution {
+    public int maxWidthRamp(int[] nums) {
+        int len = nums.length;
+        Stack<Integer> stack = new Stack<>();
+        int res = 0;
+        for (int i = 0; i < len; i++) {
+            if (!stack.isEmpty() && nums[i] >= nums[stack.peek()]) {
+                res = Math.max(res, i - stack.peek());
+            } else {
+                stack.push(i);
+            }
+        }
+        for (int i = len - 1; i >= 0; i--) {
+            int top = i;
+            while (!stack.isEmpty() && nums[stack.peek()] <= nums[i]) {
+                top = stack.pop();
+            }
+            res = Math.max(res, i - top);
+        }
+        return res;
+    }
+}
