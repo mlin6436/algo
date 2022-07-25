@@ -1,0 +1,23 @@
+https://leetcode.com/problems/shuffle-the-array/
+
+class Solution {
+    public int[] shuffle(int[] nums, int n) {
+        int len = nums.length;
+        int[] res = new int[len];
+        
+        int jump = len / n;
+        int count = 0;
+        
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < jump; j++) {
+                if (count < len) {
+                    res[count++] = nums[i + n * j];    
+                } else {
+                    break;
+                }
+            }
+        }
+        
+        return res;
+    }
+}
