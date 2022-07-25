@@ -4,6 +4,24 @@ class Solution {
     public int removeDuplicates(int[] nums) {
         int len = nums.length;
         int slow = 0;
+        int count = 1;
+        for (int fast = slow + 1; fast < len; fast++) {
+            if (nums[fast] != nums[slow]) {
+                count++;
+                slow++;
+                nums[slow] = nums[fast];
+            }
+        }
+        return count;
+    }
+}
+
+====
+
+class Solution {
+    public int removeDuplicates(int[] nums) {
+        int len = nums.length;
+        int slow = 0;
         int fast = 0;
         int temp = Integer.MIN_VALUE;
         int count = 0;
