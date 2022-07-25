@@ -20,3 +20,28 @@ class Solution {
         return res;
     }
 }
+
+====
+
+class Solution {
+    public int[] nextGreaterElements(int[] nums) {
+        int len = nums.length;
+        int[] res = new int[len];
+        var st = new Stack<Integer>();
+        for (int i = len - 2; i >= 0; i--) {
+            while (!st.isEmpty() && nums[i] >= st.peek()) {
+                st.pop();
+            }
+            res[i] = st.isEmpty() ? -1 : st.peek();
+            st.push(nums[i]);
+        }
+        while (!st.isEmpty() && nums[len - 1] >= st.peek()) {
+            st.pop();
+        }
+        res[len - 1] = st.isEmpty() ? -1 : st.peek();
+        return res;
+    }
+}
+
+// Failed scenario:
+// 5,4,3,2,1
