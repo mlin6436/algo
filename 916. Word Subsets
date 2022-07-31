@@ -1,0 +1,36 @@
+https://leetcode.com/problems/word-subsets/
+
+class Solution {
+    public List<String> wordSubsets(String[] words1, String[] words2) {
+        var res = new ArrayList();
+        
+        int[] dict2 = new int[26];
+        for (String word2: words2) {
+            int[] temp = new int[26];
+            for (char c: word2.toCharArray()) {
+                temp[c - 'a']++;
+                dict2[c - 'a'] = Math.max(dict2[c - 'a'], temp[c - 'a']);
+            }
+        }
+        
+        for (String s: words1) {
+            int[] dict1 = new int[26];
+            for (char c: s.toCharArray()) {
+                dict1[c - 'a']++;
+            }
+            if (isSubset(dict1, dict2)) {
+                res.add(s);
+            }
+        }
+        return res;
+    }
+    
+    private boolean isSubset(int[] dict1, int[] dict2) {
+        for (int i = 0; i < 26; i++) {
+            if (dict2[i] != 0 && dict2[i] > dict1[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
