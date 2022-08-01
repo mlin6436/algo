@@ -1,0 +1,23 @@
+https://leetcode.com/problems/longest-continuous-subarray-with-absolute-diff-less-than-or-equal-to-limit/
+
+class Solution {
+    public int longestSubarray(int[] nums, int limit) {
+        var max = new ArrayDeque<Integer>();
+        var min = new ArrayDeque<Integer>();
+        var res = 0;
+        for (int slow = 0, fast = 0; fast < nums.length; fast++) {
+            while (!max.isEmpty() && nums[max.peekLast()] <= nums[fast]) max.removeLast();
+            while (!min.isEmpty() && nums[min.peekLast()] >= nums[fast]) min.removeLast();
+            max.offer(fast);
+            min.offer(fast);
+            if (nums[max.peek()] - nums[min.peek()] <= limit) {
+                res = Math.max(res, fast - slow + 1);
+            } else {
+                if (max.peek() == slow) max.remove();
+                if (min.peek() == slow) min.remove();
+                slow++;
+            }
+        }
+        return res;
+    }
+}
