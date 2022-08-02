@@ -1,0 +1,37 @@
+https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/
+
+class Solution {
+    public int maxProfit(int[] prices) {
+        var max = 0;
+        for (int i = 1; i < prices.length; i++) {
+            if (prices[i] > prices[i - 1]) {
+                max += prices[i] - prices[i - 1];
+            }
+        }
+        return max;
+    }
+}
+
+====
+
+class Solution {
+    public int maxProfit(int[] prices) {
+        var max = 0;
+        var dq = new ArrayDeque<Integer>();
+        for (int i = prices.length - 1; i >= 0; i--) {
+            if (dq.size() >= 2 && prices[i] > dq.peekLast()) {
+                System.out.println(dq.peekLast());
+                max += dq.peekFirst() - dq.peekLast();
+                dq.clear();
+            } else if (dq.size() == 1 && prices[i] > dq.peekLast()) {
+                System.out.println(dq.peekLast());
+                dq.clear();
+            }
+            dq.offer(prices[i]);
+        }
+        if (dq.size() >= 2) {
+            max += dq.peekFirst() - dq.peekLast();
+        }
+        return max;
+    }
+}
