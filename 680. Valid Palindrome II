@@ -2,6 +2,30 @@ https://leetcode.com/problems/valid-palindrome-ii/
 
 class Solution {
     public boolean validPalindrome(String s) {
+        return isPalindrome(s, 0, s.length() - 1, 0);
+    }
+    
+    private boolean isPalindrome(String s, int left, int right, int count) {
+        if (count > 1) {
+            return false;
+        }
+        if (left >= right && count <= 1) {
+            return true;
+        }
+        
+        if (s.charAt(left) == s.charAt(right)) {
+            return isPalindrome(s, left+1, right-1, count);
+        } else {
+            return isPalindrome(s, left+1, right, count+1) ||
+                isPalindrome(s, left, right-1, count+1);
+        }
+    }
+}
+
+====
+
+class Solution {
+    public boolean validPalindrome(String s) {
         return isPalindrome(s, 0, s.length() - 1, 1);
     }
     
