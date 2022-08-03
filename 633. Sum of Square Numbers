@@ -1,0 +1,18 @@
+https://leetcode.com/problems/sum-of-square-numbers/
+
+class Solution {
+    public boolean judgeSquareSum(int c) {
+        var left = 0;
+        var right = Math.floor(Math.sqrt(c));
+        while (left <= right) {
+            if (left * left + right * right == c) {
+                return true;
+            } else if (left * left + right * right < c) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+        return false;
+    }
+}
