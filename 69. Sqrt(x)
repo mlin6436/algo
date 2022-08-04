@@ -1,0 +1,19 @@
+https://leetcode.com/problems/sqrtx/
+
+class Solution {
+    public int mySqrt(int x) {
+        var left = 1;
+        var right = x;
+        while (left <= right) {
+            var mid = left + (right - left) / 2;
+            if (x / mid == mid) {
+                return mid;
+            } else if (x / mid > mid) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return right;
+    }
+}
