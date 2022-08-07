@@ -1,0 +1,26 @@
+class Solution {
+    public void quicksort(int[] arr, int low, int high) {
+        while (low < high) {
+            var pivot = partition(arr, low, high);
+            quicksort(arr, low, pivot - 1);
+            quicksort(arr, pivot + 1, high);
+        }
+    }
+    
+    private int partition(int[] arr, int low, int high) {
+        var pivot = 0;
+        for (int i = low + 1; i <= high; i++) {
+            if (arr[i] < arr[low]) {
+                pivot++;
+            }
+        }
+        var swap = arr[low];
+        arr[low] = arr[low + pivot];
+        arr[low + pivot] = swap;
+        return low + pivot;
+    }
+}
+
+TC: O(nlogn)
+SC: O(1)
+NOTE: in-place; Java's Collections API sort() implements a Dual Pivot Quicksort
