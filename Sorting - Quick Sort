@@ -8,16 +8,20 @@ class Solution {
     }
     
     private int partition(int[] arr, int low, int high) {
-        var pivot = 0;
-        for (int i = low + 1; i <= high; i++) {
-            if (arr[i] < arr[low]) {
-                pivot++;
+        var pivot = low;
+        for (int cur = low + 1; cur <= high; cur++) {
+            if (arr[cur] < arr[low]) {
+                swap(arr, ++pivot, cur);
             }
         }
-        var swap = arr[low];
-        arr[low] = arr[low + pivot];
-        arr[low + pivot] = swap;
-        return low + pivot;
+        swap(arr, low, pivot);
+        return pivot;
+    }
+    
+    private void swap(int[] arr, int i, int j) {
+        var temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
     }
 }
 
