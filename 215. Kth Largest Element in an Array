@@ -1,0 +1,37 @@
+https://leetcode.com/problems/kth-largest-element-in-an-array/
+
+class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        var left = 0;
+        var right = nums.length - 1;
+        var target = nums.length - k;
+        while (left < right) {
+            var pivot = getPivot(nums, left, right);
+            if (pivot == target) {
+                return nums[target];
+            } else if (pivot < target) {
+                left = pivot + 1;
+            } else {
+                right = pivot - 1;
+            }
+        }
+        return nums[left];
+    }
+    
+    private int getPivot(int[] nums, int left, int right) {
+        var pivot = left;
+        for (int cur = left + 1; cur <= right; cur++) {
+            if (nums[cur] < nums[left]) {
+                swap(nums, ++pivot, cur);
+            }
+        }
+        swap(nums, left, pivot);
+        return pivot;
+    }
+    
+    private void swap(int[] nums, int i, int j) {
+        var temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+}
