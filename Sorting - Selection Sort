@@ -14,4 +14,4 @@ class Solution {
 
 TC: O(N^2)
 SC: O(1)
-Note: Good for sorting smaller arrays
+Note: Good for sorting smaller arrays (~10 elements)
