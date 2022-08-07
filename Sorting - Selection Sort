@@ -1,0 +1,13 @@
+class Solution {
+    public void selectionSort(int[] nums) {
+        for (int i = 0; i < nums.length; i++) {
+            var min = i;
+            for (int j = i + 1; j < nums.length; j++) {
+                min = nums[j] < nums[min] ? j : min;
+            }
+            var swap = nums[i];
+            nums[i] = nums[min];
+            nums[min] = swap;
+        }
+    }
+}
