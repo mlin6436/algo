@@ -2,6 +2,25 @@ https://leetcode.com/problems/sort-colors/
 
 class Solution {
     public void sortColors(int[] nums) {
+        var map = new TreeMap<Integer, Integer>();
+        for (var num: nums) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+        var i = 0;
+        for (var entry: map.entrySet()) {
+            var key = entry.getKey();
+            var value = entry.getValue();
+            while (value-- > 0) {
+                nums[i++] = key;
+            }
+        }
+    }
+}
+
+====
+
+class Solution {
+    public void sortColors(int[] nums) {
         int zero = 0;
         int two = nums.length - 1;
         int cur = 0;
