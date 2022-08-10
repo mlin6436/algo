@@ -1,0 +1,25 @@
+https://leetcode.com/problems/number-of-provinces/
+
+class Solution {
+    public int findCircleNum(int[][] isConnected) {
+        var provinces = 0;
+        var visited = new boolean[isConnected.length];
+        Arrays.fill(visited, false);
+        for (int i = 0; i < isConnected.length; i++) {
+            if (visited[i] == false) {
+                markProvince(isConnected, i, visited);
+                provinces++;
+            }
+        }
+        return provinces;
+    }
+    
+    private void markProvince(int[][] a, int x, boolean[] visited) {
+        visited[x] = true;
+        for (int i = 0; i < a.length; i++) {
+            if (a[x][i] == 1 && visited[i] == false) {
+                markProvince(a, i, visited);
+            }
+        }
+    }
+}
