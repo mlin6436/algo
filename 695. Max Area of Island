@@ -1,0 +1,37 @@
+https://leetcode.com/problems/max-area-of-island/
+
+class Solution {
+    public int maxAreaOfIsland(int[][] grid) {
+        var area = 0;
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                if (grid[i][j] == 1) {
+                    area = Math.max(area, getArea(grid, i, j));
+                }
+            }
+        }
+        return area;
+    }
+    
+    private int getArea(int[][] grid, int x, int y) {
+        int[][] coors = {{-1,0},{0,-1},{1,0},{0,1}};
+        var area = 0;
+        var stack = new Stack<int[]>();
+        stack.push(new int[]{x, y});
+        while (!stack.isEmpty()) {
+            var cur = stack.pop();
+            if (grid[cur[0]][cur[1]] != 0) {
+                grid[cur[0]][cur[1]] = 0;
+                area++;    
+            }
+            for (var coor: coors) {
+                var i = coor[0] + cur[0];
+                var j = coor[1] + cur[1];
+                if (i >= 0 && i < grid.length && j >= 0 && j < grid[0].length && grid[i][j] == 1) {
+                    stack.push(new int[]{i, j});
+                }
+            }
+        }
+        return area;
+    }
+}
