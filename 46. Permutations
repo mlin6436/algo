@@ -1,0 +1,32 @@
+https://leetcode.com/problems/permutations/
+
+class Solution {
+    public List<List<Integer>> permute(int[] nums) {
+        var res = new ArrayList();
+        bt(nums, 0, res);
+        return res;
+    }
+    
+    private void bt(int[] nums, int level, List<List<Integer>> res) {
+        if (level == nums.length - 1) {
+            var temp = new ArrayList();
+            for (var num: nums) {
+                temp.add(num);
+            }
+            res.add(temp);
+            return;
+        }
+        
+        for (int i = level; i < nums.length; i++) {
+            swap(nums, i, level);
+            bt(nums, level + 1, res);
+            swap(nums, i, level);
+        }
+    }
+    
+    private void swap(int[] nums, int x, int y) {
+        var temp = nums[x];
+        nums[x] = nums[y];
+        nums[y] = temp;
+    }
+}
