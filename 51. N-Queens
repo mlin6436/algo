@@ -1,0 +1,52 @@
+https://leetcode.com/problems/n-queens/
+
+class Solution {
+    public List<List<String>> solveNQueens(int n) {
+        var res = new ArrayList();
+        char[][] a = new char[n][n];
+        for (var row: a) Arrays.fill(row, '.');
+        bt(a, n, 0, res);
+        return res;
+    }
+    
+    private void bt(char[][] a, int n, int row, List<List<String>> res) {
+        if (row == n) {
+            var tmp = new ArrayList();
+            for (char[] line: a) {
+                tmp.add(new String(line));
+            }
+            res.add(tmp);
+            return;
+        }
+        
+        for (int col = 0; col < n; col++) {
+            if (valid(a, n, row, col)) {
+                a[row][col] = 'Q';
+                bt(a, n, row + 1, res);
+                a[row][col] = '.';
+            }
+        }
+    }
+    
+    private boolean valid(char[][] a, int n, int row, int col) {
+        for (int i = 0; i < n; i++) {
+            if (a[i][col] == 'Q') {
+                return false;
+            }
+        }
+        
+        for (int i = row - 1, j = col - 1; i >= 0 && j >= 0; i--, j--) {
+            if (a[i][j] == 'Q') {
+                return false;
+            }
+        }
+        
+        for (int i = row - 1, j = col + 1; i >= 0 && j < n; i--, j++) {
+            if (a[i][j] == 'Q') {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+}
