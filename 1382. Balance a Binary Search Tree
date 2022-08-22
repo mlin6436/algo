@@ -1,0 +1,46 @@
+https://leetcode.com/problems/balance-a-binary-search-tree/
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public TreeNode balanceBST(TreeNode root) {
+        var nodes = new ArrayList();
+        inorder(nodes, root);
+        return balance(nodes, 0, nodes.size());
+    }
+    
+    private void inorder(List<Integer> nodes, TreeNode node) {
+        if (node == null) {
+            return;
+        }
+        
+        inorder(nodes, node.left);
+        nodes.add(node.val);
+        inorder(nodes, node.right);
+    }
+    
+    private TreeNode balance(List<Integer> nodes, int start, int end) {
+        if (start >= end) {
+            return null;
+        }
+        
+        int mid = start + (end - start) / 2;
+        var tree = new TreeNode(nodes.get(mid));
+        tree.left = balance(nodes, start, mid);
+        tree.right = balance(nodes, mid + 1, end);
+        return tree;
+    }
+}
