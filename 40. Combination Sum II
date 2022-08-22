@@ -1,0 +1,32 @@
+https://leetcode.com/problems/combination-sum-ii/
+
+class Solution {
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        Arrays.sort(candidates);
+        var res = new ArrayList();
+        var tmp = new ArrayList();
+        bt(candidates, target, 0, res, tmp, 0);
+        return res;
+    }
+    
+    private void bt(int[] nums, int target, int pos, List<List<Integer>> res, List<Integer> tmp, int sum) {
+        if (target == sum) {
+            res.add(new ArrayList(tmp));
+            return;
+        }
+        
+        if (pos == nums.length || sum > target) {
+            return;
+        }
+        
+        for (var i = pos; i < nums.length; i++) {
+            if (i > pos && nums[i] == nums[i - 1]) continue;
+            if (nums[i] > target) return;
+            tmp.add(nums[i]);
+            sum += nums[i];
+            bt(nums, target, i + 1, res, tmp, sum);
+            tmp.remove(tmp.size() - 1);
+            sum -= nums[i];
+        }
+    }
+}
