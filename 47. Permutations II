@@ -1,0 +1,36 @@
+https://leetcode.com/problems/permutations-ii/
+
+class Solution {
+    public List<List<Integer>> permuteUnique(int[] nums) {
+        var tmp = new HashSet();
+        bt(nums, 0, tmp);
+        var res = new ArrayList();
+        res.addAll(tmp);
+        return res;
+    }
+    
+    private void bt(int[] nums, int pos, Set<List<Integer>> res) {
+        if (pos == nums.length - 1) {
+            var tmp = new ArrayList();
+            for (var n: nums) {
+                tmp.add(n);
+            }
+            if (!res.contains(tmp)) {
+                res.add(tmp);
+            }
+            return;
+        }
+        
+        for (var i = pos; i < nums.length; i++) {
+            swap(nums, i, pos);
+            bt(nums, pos + 1, res);
+            swap(nums, i, pos);
+        }
+    }
+    
+    private void swap(int[] nums, int i, int j) {
+        var tmp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = tmp;
+    }
+}
