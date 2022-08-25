@@ -1,0 +1,53 @@
+https://leetcode.com/problems/sudoku-solver/
+
+class Solution {
+    boolean solved = false;
+    
+    public void solveSudoku(char[][] board) {
+        solve(board, 0, 0);
+    }
+    
+    private void solve(char[][] board, int i, int j) {
+        if (i == 8 && j == 9) {
+            solved = true;
+            return;
+        }
+        
+        if (j == 9) {
+            i++;
+            j = 0;
+        }
+        
+        if (board[i][j] == '.') {
+            for (var k = 1; k <= 9; k++) {
+                if (valid(board, i, j, (char) ('0' + k))) {
+                    board[i][j] = (char) ('0' + k);
+                    solve(board, i, j + 1);
+                    if (!solved) {
+                        board[i][j] = '.';
+                    }
+                } 
+            }    
+        } else {
+            solve(board, i, j + 1);
+        }
+    }
+    
+    private boolean valid(char[][] board, int i, int j, char c){
+        for (int k = 0; k < 9; k++) {
+            if (board[k][j] == c) return false;
+            if (board[i][k] == c) return false;
+        }
+        int id = (i / 3) * 3 + (j / 3);
+        for (int x = 0; x < 3; x++) {
+            for (int y = 0; y < 3; y++) {
+                int row = x + (id / 3) * 3;
+                int col = y + (id % 3) * 3;
+                if (board[row][col] == c) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+}
