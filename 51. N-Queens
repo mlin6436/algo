@@ -3,6 +3,55 @@ https://leetcode.com/problems/n-queens/
 class Solution {
     public List<List<String>> solveNQueens(int n) {
         var res = new ArrayList();
+        char[][] board = new char[n][n];
+        for (var row: board) {
+            Arrays.fill(row, '.');
+        }
+        bt(board, n, 0, res);
+        return res;
+    }
+    
+    private void bt(char[][] board, int n, int r, List<List<String>> res) {
+        if (r == n) {
+            var tmp = new ArrayList();
+            for (var row: board) {
+                tmp.add(new String(row));
+            }
+            res.add(tmp);
+            return;
+        }
+        
+        for (var c = 0; c < n; c++) {
+            if (valid(board, n, r, c)) {
+                board[r][c] = 'Q';
+                bt(board, n, r + 1, res);
+                board[r][c] = '.';
+            }
+        }
+    }
+    
+    private boolean valid(char[][] board,int n, int r, int c) {
+        for (var i = 0; i < n; i++) {
+            if (board[i][c] == 'Q') return false;
+        }
+        
+        for (int i = r - 1, j = c - 1; i >= 0 && j >= 0; i--, j--) {
+            if (board[i][j] == 'Q') return false;
+        }
+        
+        for (int i = r - 1, j = c + 1; i >= 0 && j < n; i--, j++) {
+            if (board[i][j] == 'Q') return false;
+        }
+        
+        return true;
+    }
+}
+
+====
+
+class Solution {
+    public List<List<String>> solveNQueens(int n) {
+        var res = new ArrayList();
         char[][] a = new char[n][n];
         for (var row: a) Arrays.fill(row, '.');
         bt(a, n, 0, res);
