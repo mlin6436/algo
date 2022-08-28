@@ -1,0 +1,44 @@
+https://leetcode.com/problems/minimum-height-trees/
+
+class Solution {
+    public List<Integer> findMinHeightTrees(int n, int[][] edges) {
+        var res = new ArrayList();
+        if (n == 0) {
+            return res;
+        } else if (n == 1) {
+            res.add(0);
+            return res;
+        } else {
+            int[] degree = new int[n];
+            List<List<Integer>> adjacent = new ArrayList();
+            for (var i = 0; i < n; i++) {
+                adjacent.add(new ArrayList());
+            }
+            for (var edge: edges) {
+                degree[edge[0]]++;
+                degree[edge[1]]++;
+                adjacent.get(edge[0]).add(edge[1]);
+                adjacent.get(edge[1]).add(edge[0]);
+            }
+            Queue<Integer> q = new LinkedList();
+            for (var i = 0; i < n; i++) {
+                if (degree[i] == 1) q.offer(i);
+            }
+            while (n > 2) {
+                var size = q.size();
+                n -= size;
+                while (size-- > 0) {
+                    var edge = q.poll();
+                    for (var adj: adjacent.get(edge)) {
+                        degree[adj]--;
+                        if (degree[adj] == 1) {
+                            q.offer(adj);
+                        }
+                    }
+                }
+            }
+            res.addAll(q);
+            return res;
+        }
+    }
+}
