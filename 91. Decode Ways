@@ -1,0 +1,28 @@
+https://leetcode.com/problems/decode-ways/
+
+class Solution {
+    public int numDecodings(String s) {
+        if (s.length() == 0 || s.startsWith("0")) return 0;
+        int[] dp = new int[s.length() + 1];
+        dp[0] = 1;
+        dp[1] = 1;
+        char prev = s.charAt(0);
+        for (int i = 2; i <= s.length(); i++) {
+            char cur = s.charAt(i - 1);
+            if (cur == '0' && (prev > '2' || prev == '0')) {
+                return 0;
+            }
+            if (prev == '1' || prev == '2' && cur < '7') {
+                if (cur != '0') {
+                    dp[i] = dp[i - 1] + dp[i - 2];    
+                } else {
+                    dp[i] = dp[i - 2];    
+                }
+            } else {
+                dp[i] = dp[i - 1];
+            }
+            prev = cur;
+        }
+        return dp[s.length()];
+    }
+}
