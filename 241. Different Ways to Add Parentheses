@@ -1,0 +1,30 @@
+https://leetcode.com/problems/different-ways-to-add-parentheses/description/
+
+class Solution {
+    public List<Integer> diffWaysToCompute(String expression) {
+        var result = new ArrayList<Integer>();
+
+        for (var i = 0; i < expression.length(); i++) {
+            char cur = expression.charAt(i);
+            if (cur == '+' || cur == '-' || cur == '*') {
+                var left = diffWaysToCompute(expression.substring(0, i));
+                var right = diffWaysToCompute(expression.substring(i + 1));
+                for (var l: left) {
+                    for (var r: right) {
+                        switch (cur) {
+                            case '+': result.add(l + r); break;
+                            case '-': result.add(l - r); break;
+                            case '*': result.add(l * r); break;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (result.size() == 0) {
+            result.add(Integer.parseInt(expression));
+        }
+
+        return result;
+    }
+}
