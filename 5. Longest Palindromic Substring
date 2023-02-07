@@ -1,6 +1,6 @@
 https://leetcode.com/problems/longest-palindromic-substring/
 
-#TwoPointer
+#TwoPointers
 
 class Solution {
     public String longestPalindrome(String s) {
@@ -68,7 +68,7 @@ class Solution {
 
 ====
 
-#TwoPointer
+#TwoPointers
 
 class Solution {
     public String longestPalindrome(String s) {
