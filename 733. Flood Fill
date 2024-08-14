@@ -1,0 +1,56 @@
+💡 BFS
+📊 O(N), O(N)
+
+class Solution {
+    public int[][] floodFill(int[][] image, int sr, int sc, int color) {
+        int originalColor = image[sr][sc];
+        if (originalColor == color) {
+            return image;
+        }
+        
+        Queue<int[]> q = new LinkedList<>();
+        q.add(new int[]{sr, sc});
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            int r = cur[0];
+            int c = cur[1];
+            if (image[r][c] == originalColor) {
+                image[r][c] = color;
+                int[][] dirs = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+                for (int[] dir: dirs) {
+                    int r_next = r + dir[0];
+                    int c_next = c + dir[1];
+                    if (r_next >= 0 && r_next < image.length && c_next >= 0 && c_next < image[0].length) {
+                        q.add(new int[]{r_next, c_next});
+                    }
+                }
+            }
+        }
+
+        return image;
+    }
+}
+
+====
+
+💡 DFS
+📊 O(N), O(N)
+
+class Solution {
+    public int[][] floodFill(int[][] image, int sr, int sc, int color) {
+        int originalColor = image[sr][sc];
+        if (originalColor == color) return image;
+        dfs(image, sr, sc, color, originalColor);
+        return image;
+    }
+
+    void dfs(int[][] image, int r, int c, int color, int originalColor) {
+        if (r >= 0 && r < image.length && c >= 0 && c < image[0].length && image[r][c] == originalColor) {
+            image[r][c] = color;
+            dfs(image, r + 1, c, color, originalColor);
+            dfs(image, r - 1, c, color, originalColor);
+            dfs(image, r, c + 1, color, originalColor);
+            dfs(image, r, c - 1, color, originalColor);
+        }
+    }
+}

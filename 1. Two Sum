@@ -1,6 +1,28 @@
-https://leetcode.com/problems/two-sum/
+# Two pointer 
+💡 Using a stack
+📊 O(n^2), O(1)
 
-#HashTable
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        int[] result = new int[2];
+        int len = nums.length;
+        for (int i = 0; i < len; i++) {
+            for (int j = i + 1; j < len; j++) {
+                if (nums[i] + nums[j] == target) {
+                    result[0] = i;
+                    result[1] = j;
+                    return result;
+                }
+            }
+        }
+        return result;
+    }
+}
+
+====
+
+💡 One-pass hash table
+📊 O(n), O(n)
 
 class Solution {
     public int[] twoSum(int[] nums, int target) {
@@ -19,7 +41,8 @@ class Solution {
 
 ====
 
-#HashTable
+💡 Two-pass hash table
+📊 O(n), O(n)
 
 class Solution {
     public int[] twoSum(int[] nums, int target) {

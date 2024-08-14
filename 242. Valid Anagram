@@ -1,6 +1,5 @@
-https://leetcode.com/problems/valid-anagram/
-
-#HashTable
+💡 Hash table, frequency counter
+📊 O(n), O(1)
 
 class Solution {
     public boolean isAnagram(String s, String t) {
