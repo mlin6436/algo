@@ -1,4 +1,5 @@
-https://leetcode.com/problems/diameter-of-binary-tree/
+💡 DFS (need to consider result in two sub-branches)
+📊 O(n), O(n)
 
 /**
  * Definition for a binary tree node.

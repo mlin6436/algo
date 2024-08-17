@@ -1,0 +1,24 @@
+💡 Hash table
+📊 O(n), O(1)
+
+class Solution {
+    public int longestPalindrome(String s) {
+        int[] dict = new int[58];
+        int res = 0;
+        for (int i = 0; i < s.length(); i++) {
+            dict[s.charAt(i) - 65]++;
+        }
+        for (int i = 0; i < 58; i++) {
+            int pairs = dict[i] / 2;
+            res += pairs * 2;
+            dict[i] = dict[i] % 2;
+        }
+        for (int i = 0; i < 58; i++) {
+            if (dict[i] > 0) {
+                res += 1;
+                break;
+            }
+        }
+        return res;
+    }
+}

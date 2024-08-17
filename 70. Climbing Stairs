@@ -1,4 +1,5 @@
-https://leetcode.com/problems/climbing-stairs/
+💡 DP (bottom-up)
+📊 O(n), O(n)
 
 class Solution {
     public int climbStairs(int n) {
@@ -17,6 +18,9 @@ class Solution {
 
 ====
 
+💡 DP (bottom-up)
+📊 O(n), O(n)
+
 class Solution {
     public int climbStairs(int n) {
         if (n <= 2) return n;
@@ -32,6 +36,9 @@ class Solution {
 
 ====
 
+💡 Tail Recursion
+📊 O(n), O(1)
+
 class Solution {
     public int climbStairs(int n) {
         return climb(n, 0);
@@ -46,6 +53,25 @@ class Solution {
             return 2;
         } else {
             return climb(n - 1, res) + climb(n - 2, res);    
+        }
+    }
+}
+
+====
+
+💡 Recursive
+📊 O(2^n), O(n)
+
+class Solution {
+    public int climbStairs(int n) {
+        if (n == 0) {
+            return 0;
+        } else if (n == 1) {
+            return 1;
+        } else if (n == 2) {
+            return 2;
+        } else {
+            return climbStairs(n - 1) + climbStairs(n - 2);
         }
     }
 }
