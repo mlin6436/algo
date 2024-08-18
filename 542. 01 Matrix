@@ -1,4 +1,5 @@
-https://leetcode.com/problems/01-matrix/
+💡 DP
+📊 O(m*n), O(m*n)
 
 class Solution {
     public int[][] updateMatrix(int[][] mat) {
@@ -38,54 +39,37 @@ class Solution {
 
 ====
 
+💡 BFS
+📊 O(m*n), O(m*n)
+
 class Solution {
     public int[][] updateMatrix(int[][] mat) {
-        int rows = mat.length;
-        int cols = mat[0].length;
-        int[][] res = new int[rows][cols];
-
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                if (mat[i][j] != 0) {
-                    int up = 10000;
-                    int left = 10000;
-                    if (i - 1 >= 0) {
-                        up = res[i - 1][j];
-                    }
-                    if (j - 1 >= 0) {
-                        left = res[i][j - 1];
-                    }
-                    
-                    int temp = Math.min(up, left);
-                    if (temp != Integer.MAX_VALUE) {
-                        res[i][j] = temp + 1;
-                    } else {
-                        res[i][j] = mat[i][j];
-                    }
+        int m = mat.length;
+        int n = mat[0].length;
+        int[][] res = new int[m][n];
+        Queue<int[]> q = new LinkedList<>();
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (mat[i][j] == 0) {
+                    res[i][j] = 0;
+                    q.add(new int[]{i, j});
+                } else {
+                    res[i][j] = Integer.MAX_VALUE;
                 }
             }
         }
-
-        for (int i = rows - 1; i >= 0; i--) {
-            for (int j = cols - 1; j >= 0; j--) {
-                if (mat[i][j] != 0) {
-                    int down = 10000;
-                    int right = 10000;
-                    if (i + 1 < rows) {
-                        down = res[i + 1][j];
-                    }
-                    if (j + 1 < cols) {
-                        right = res[i][j + 1];
-                    }
-                    
-                    int temp = Math.min(down, right);
-                    if (temp != Integer.MAX_VALUE) {
-                        res[i][j] = Math.min(res[i][j], 1 + temp);    
-                    }
+        int[][] dirs = {{1,0},{0,1},{-1,0},{0,-1}};
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            for (int[] dir : dirs) {
+                int new_i = cur[0] + dir[0];
+                int new_j = cur[1] + dir[1];
+                if (new_i >= 0 && new_i < m && new_j >= 0 && new_j < n && res[new_i][new_j] > res[cur[0]][cur[1]] + 1) {
+                    res[new_i][new_j] = res[cur[0]][cur[1]] + 1;
+                    q.add(new int[]{new_i, new_j});
                 }
             }
         }
-        
         return res;
     }
 }
