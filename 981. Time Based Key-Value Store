@@ -1,0 +1,70 @@
+💡 Hash map + binary search
+📊 O(log n), O(n)
+
+class TimeMap {
+
+    private Map<String, List<Pair<Integer, String>>> map;
+
+    public TimeMap() {
+        map = new HashMap<>();
+    }
+    
+    public void set(String key, String value, int timestamp) {
+        map.putIfAbsent(key, new ArrayList<>());
+        map.get(key).add(new Pair<>(timestamp, value));
+    }
+    
+    public String get(String key, int timestamp) {
+        if (!map.containsKey(key)) return "";
+        List<Pair<Integer, String>> pairs = map.get(key);
+        int left = 0;
+        int right = pairs.size() - 1;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (pairs.get(mid).getKey() <= timestamp) left = mid + 1;
+            else right = mid - 1;
+        }
+        return right < 0 ? "" : pairs.get(right).getValue();
+    }
+}
+
+/**
+ * Your TimeMap object will be instantiated and called as such:
+ * TimeMap obj = new TimeMap();
+ * obj.set(key,value,timestamp);
+ * String param_2 = obj.get(key,timestamp);
+ */
+
+====
+
+💡 Hash map + linear search (Time limit exceeded)
+📊 O(n), O(n)
+
+class TimeMap {
+    private Map<String, Map<Integer, String>> map;
+
+    public TimeMap() {
+        map = new HashMap<>();
+    }
+    
+    public void set(String key, String value, int timestamp) {
+        map.putIfAbsent(key, new HashMap<>());
+        map.get(key).put(timestamp, value);
+    }
+    
+    public String get(String key, int timestamp) {
+        if (!map.containsKey(key)) return "";
+        return map.get(key).entrySet().stream()
+            .filter(e -> e.getKey() <= timestamp)
+            .sorted(Map.Entry.<Integer, String>comparingByKey().reversed())
+            .map(Map.Entry::getValue)
+            .findFirst().orElse("");
+    }
+}
+
+/**
+ * Your TimeMap object will be instantiated and called as such:
+ * TimeMap obj = new TimeMap();
+ * obj.set(key,value,timestamp);
+ * String param_2 = obj.get(key,timestamp);
+ */

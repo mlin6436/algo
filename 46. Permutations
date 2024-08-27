@@ -1,26 +1,52 @@
-https://leetcode.com/problems/permutations/
+💡 Backtracking (generate mutations)
+📊 O(n * n!), O(n)
 
 class Solution {
     public List<List<Integer>> permute(int[] nums) {
-        var res = new ArrayList();
-        bt(nums, 0, res);
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> tmp = new ArrayList<>();
+        bt(nums, res, tmp);
+        return res;
+    }
+
+    public void bt(int[] nums, List<List<Integer>> res, List<Integer> tmp) {
+        if (tmp.size() == nums.length) {
+            res.add(new ArrayList<>(tmp));
+            return;
+        }
+        for (int num : nums) {
+            if (!tmp.contains(num)) {
+                tmp.add(num);
+                bt(nums, res, tmp);
+                tmp.remove(tmp.size() - 1);
+            }
+        }
+    }
+}
+
+====
+
+💡 Backtracking (swap to generate mutations)
+📊 O(n * n!), O(n)
+
+class Solution {
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> res = new ArrayList();
+        gen(nums, 0, res);
         return res;
     }
     
-    private void bt(int[] nums, int level, List<List<Integer>> res) {
-        if (level == nums.length - 1) {
-            var temp = new ArrayList();
-            for (var num: nums) {
-                temp.add(num);
-            }
-            res.add(temp);
+    private void gen(int[] nums, int index, List<List<Integer>> res) {
+        if (index == nums.length - 1) {
+            List<Integer> tmp = new ArrayList();
+            for (int num: nums) tmp.add(num);
+            res.add(tmp);
             return;
         }
-        
-        for (int i = level; i < nums.length; i++) {
-            swap(nums, i, level);
-            bt(nums, level + 1, res);
-            swap(nums, i, level);
+        for (int i = index; i < nums.length; i++) {
+            swap(nums, i, index);
+            gen(nums, index + 1, res);
+            swap(nums, i, index);
         }
     }
     

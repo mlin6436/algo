@@ -1,0 +1,110 @@
+💡 Recusion
+📊 O(n), O(1)
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null || root.val == p.val || root.val == q.val) return root;
+
+        TreeNode left = lowestCommonAncestor(root.left, p, q);
+        TreeNode right = lowestCommonAncestor(root.right, p, q);
+        
+        if (left != null && right != null) return root;
+        else if (left != null) return left;
+        else return right;
+    }
+}
+
+=====
+
+💡 Iterative
+📊 O(n), O(n)
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        List<TreeNode> list1 = new ArrayList<>();
+        dfs(root, p, list1);
+        List<TreeNode> list2 = new ArrayList<>();
+        dfs(root, q, list2);
+        TreeNode res = null;
+        int i = 0;
+        while (i < list1.size() && i < list2.size()) {
+            if (list1.get(i).val != list2.get(i).val) {
+                break;
+            }
+            i++;
+        }
+        return list1.get(i - 1);
+    }
+
+    public boolean dfs(TreeNode root, TreeNode node, List<TreeNode> res) {
+        if (root == null) return false;
+        res.add(root);
+        if (root.val == node.val) return true;
+        if (dfs(root.left, node, res) || dfs(root.right, node, res)) {
+            return true;
+        }
+        res.remove(res.size() - 1);
+        return false;
+    }
+}
+
+====
+
+💡 Iterative
+📊 O(n), O(n)
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        Map<TreeNode, TreeNode> map = new HashMap<>();
+        Stack<TreeNode> st = new Stack<>();
+        map.put(root, null);
+        st.push(root);
+        while (!map.containsKey(p) || !map.containsKey(q)) {
+            TreeNode cur = st.pop();
+            if (cur.left != null) {
+                map.put(cur.left, cur);
+                st.push(cur.left);
+            }
+            if (cur.right != null) {
+                map.put(cur.right, cur);
+                st.push(cur.right);
+            }
+        }
+        Set<TreeNode> set = new HashSet<>();
+        while (p != null) {
+            set.add(p);
+            p = map.get(p);
+        }
+        while (!set.contains(q)) {
+            q = map.get(q);
+        }
+        return q;
+    }
+}

@@ -1,0 +1,40 @@
+💡 DFS
+📊 O(n log n), O(n)
+
+class Solution {
+    public List<List<String>> accountsMerge(List<List<String>> accounts) {
+        Map<String, List<String>> emails = new HashMap<>();
+        Set<String> visited = new HashSet<>();
+        List<List<String>> res = new ArrayList<>();
+
+        for (List<String> account : accounts) {
+            for (int i = 1; i < account.size(); i++) {
+                String email = account.get(1);
+                String otherEmail = account.get(i);
+                emails.computeIfAbsent(email, x -> new ArrayList<>()).add(otherEmail);
+                emails.computeIfAbsent(otherEmail, x -> new ArrayList<>()).add(email);
+            }
+        }
+
+        for (List<String> account : accounts) {
+            if (!visited.contains(account.get(1))) {
+                List<String> merged = new ArrayList<>();
+                dfs(account.get(1), emails, merged, visited);
+                Collections.sort(merged);
+                merged.add(0, account.get(0));
+                res.add(merged);
+            }
+        }
+
+        return res;
+    }
+
+    public void dfs(String email, Map<String, List<String>> emails, List<String> merged, Set<String> visited) {
+        if (visited.add(email)) {
+            merged.add(email);
+            for (String cur : emails.get(email)) {
+                dfs(cur, emails, merged, visited);
+            }
+        }
+    }
+}
