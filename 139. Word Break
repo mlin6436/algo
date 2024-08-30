@@ -1,11 +1,12 @@
-https://leetcode.com/problems/word-break/
+💡 DP (look back)
+📊 O(n * m), O(n)
 
 class Solution {
     public boolean wordBreak(String s, List<String> wordDict) {
         boolean[] dp = new boolean[s.length() + 1];
         dp[0] = true;
         for (int i = 1; i <= s.length(); i++) {
-            for (String word: wordDict) {
+            for (String word : wordDict) {
                 int len = word.length();
                 if (i >= len && s.substring(i - len, i).equals(word)) {
                     dp[i] = dp[i] || dp[i - len];
@@ -13,5 +14,31 @@ class Solution {
             }
         }
         return dp[s.length()];
+    }
+}
+
+====
+
+💡 BFS (look forward)
+📊 O(n^3), O(n)
+
+class Solution {
+    public boolean wordBreak(String s, List<String> wordDict) {
+        Set<String> words = new HashSet<>(wordDict);
+        Queue<Integer> q = new LinkedList<>();
+        boolean[] visited = new boolean[s.length()];
+        q.offer(0);
+        while (!q.isEmpty()) {
+            int l = q.poll();
+            if (l == s.length()) return true;
+            if (visited[l]) continue;
+            visited[l] = true;
+            for (int r = l + 1; r <= s.length(); r++) {
+                if (words.contains(s.substring(l, r))) {
+                    q.offer(r);
+                }
+            }
+        }
+        return false;
     }
 }

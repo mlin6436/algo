@@ -1,6 +1,38 @@
-https://leetcode.com/problems/longest-palindromic-substring/
+💡 DP
+📊 O(n^2), O(n^2)
 
-#DynamicProgramming
+class Solution {
+    public String longestPalindrome(String s) {
+        int n = s.length();
+        boolean[][] dp = new boolean[n][n];
+        int start = 0;
+        int max = 1;
+        for (int i = 0; i < n; i++) dp[i][i] = true;
+        for (int i = 0; i < n - 1; i++) {
+            if (s.charAt(i) == s.chatAt(i + 1)) {
+                dp[i][i + 1] = true;
+                start = i;
+                max = 2;
+            }
+        }
+        for (int len = 3; len <= n; len++) {
+            for (int i = 0; i < n - len + 1; i++) {
+                int j = i + len - 1;
+                if (s.charAt(i) == s.chatAt(j) && dp[i + 1][j - 1]) {
+                    dp[i][j] = true;
+                    start = i;
+                    max = len;
+                }
+            }
+        }
+        return s.substring(start, start + max);
+    }
+}
+
+====
+
+💡 DP
+📊 O(n^2), O(n^2)
 
 class Solution {
     public String longestPalindrome(String s) {
@@ -32,7 +64,8 @@ class Solution {
 
 ====
 
-#TwoPointers
+💡 Two pointers (expand from centre)
+📊 O(n^2), O(1)
 
 class Solution {
     public String longestPalindrome(String s) {
@@ -64,43 +97,8 @@ class Solution {
 
 ====
 
-#DynamicProgramming
-
-class Solution {
-    public String longestPalindrome(String s) {
-        int len = s.length();
-        int max = 0;
-        int start = 0;
-        int end = 0;
-        boolean[][] dp = new boolean[len][len];
-        for (int i = 0; i < len; i++) {
-            for (int j = i; j < len; j++) {
-                if (isPalindrome(s, dp, i, j) && (j - i) > max) {
-                    max = j - i;
-                    start = i;
-                    end = j;
-                }
-            }
-        }
-        return s.substring(start, end + 1);
-    }
-
-    public boolean isPalindrome(String s, boolean[][] dp, int left, int right) {
-        while (left <= right) {
-            if (dp[left][right] || s.charAt(left) != s.charAt(right)) {
-                return false;
-            }
-            dp[left][right] = true;
-            left++;
-            right--;
-        }
-        return true;
-    }
-}
-
-====
-
-#TwoPointers
+💡 Two pointers (expand from centre)
+📊 O(n^2), O(1)
 
 class Solution {
     public String longestPalindrome(String s) {
