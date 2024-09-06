@@ -1,0 +1,67 @@
+💡 BFS
+📊 O(B), O(B) - B is the length of the bank
+
+class Solution {
+    public int minMutation(String startGene, String endGene, String[] bank) {
+        Set<String> dict = new HashSet<>(Arrays.asList(bank));
+        if (!dict.contains(endGene)) return -1;
+        Queue<Pair<String, Integer>> q = new LinkedList<>();
+        q.offer(new Pair<>(startGene, 0));
+        while (!q.isEmpty()) {
+            Pair<String, Integer> cur = q.poll();
+            String s = cur.getKey();
+            int steps = cur.getValue();
+            if (s.equals(endGene)) return steps;
+            for (int i = 0; i < s.length(); i++) {
+                for (char c : new char[]{'A','C','G','T'}) {
+                    char[] word = s.toCharArray();
+                    char tmp = word[i];
+                    word[i] = c;
+                    String nextGene = new String(word);
+                    if (dict.contains(nextGene)) {
+                        q.offer(new Pair<>(nextGene, steps + 1));
+                        dict.remove(nextGene);
+                    }
+                    word[i] = tmp;
+                }
+            }
+        }
+        return -1;
+    }
+}
+
+====
+
+💡 DFS
+📊 O(n * m^n), O(n) - N is the length of the gene and M is the number of possible characters for mutation
+
+class Solution {
+    private Set<String> dict;
+    private int min = Integer.MAX_VALUE;
+    
+    public int minMutation(String startGene, String endGene, String[] bank) {
+        dict = new HashSet<String>(Arrays.asList(bank));
+        dfs(startGene, endGene, 0);
+        return min == Integer.MAX_VALUE ? -1 : min;
+    }
+
+    private void dfs(String start, String end, int steps) {
+        if (start.equals(end)) {
+            min = Math.min(min, steps);
+            return;
+        }
+        for (int i = 0; i < start.length(); i++) {
+            for (char c : new char[]{'A','C','G','T'}) {
+                char[] cur = start.toCharArray();
+                cur[i] = c;
+                String s = new String(cur);
+                if (dict.contains(s)) {
+                    dict.remove(s);
+                    dfs(s, end, steps + 1);
+                    dict.add(s);
+                }
+            }
+        }
+        return;
+    }
+}

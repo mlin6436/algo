@@ -1,27 +1,25 @@
-https://leetcode.com/problems/letter-combinations-of-a-phone-number/
+💡 Backtracking (string builder)
+📊 O(n * n), O(n)
 
 class Solution {
     private String[] dict = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
-    
+
     public List<String> letterCombinations(String digits) {
-        var res = new ArrayList();
-        var sb = new StringBuilder();
-        bt(digits, 0, res, sb);
+        if (digits.length() == 0) return new ArrayList<>();
+        List<String> res = new ArrayList<>();
+        bt(digits, 0, new StringBuilder(), res);
         return res;
     }
 
-    private void bt(String digits, int pos, List<String> res, StringBuilder sb) {
-        if (pos == digits.length()) {
-            if (sb.length() > 0) {
-                res.add(sb.toString());
-            }
+    private void bt(String digits, int idx, StringBuilder sb, List<String> res) {
+        if (idx == digits.length()) {
+            res.add(sb.toString());
             return;
         }
-        
-        int cur = digits.charAt(pos) - '0';
-        for (Character c: dict[cur].toCharArray()) {
+        String chars = dict[digits.charAt(idx) - '0'];
+        for (char c : chars.toCharArray()) {
             sb.append(c);
-            bt(digits, pos + 1, res, sb);
+            bt(digits, idx + 1, sb, res);
             sb.deleteCharAt(sb.length() - 1);
         }
     }
@@ -29,26 +27,27 @@ class Solution {
 
 ====
 
+💡 Backtracking
+📊 O(n * n), O(n)
+
 class Solution {
+    private String[] dict = {"0", "1", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+
     public List<String> letterCombinations(String digits) {
-        var res = new ArrayList();
-        bt(digits, 0, res, "");
+        if (digits.length() == 0) return new ArrayList<>();
+        List<String> res = new ArrayList<>();
+        bt(digits, 0, "", res);
         return res;
     }
 
-    private void bt(String digits, int pos, List<String> res, String tmp) {
-        if (pos == digits.length()) {
-            if (!tmp.isEmpty()) {
-                res.add(tmp);
-            }
+    private void bt(String digits, int idx, String tmp, List<String> res) {
+        if (idx == digits.length()) {
+            res.add(tmp);
             return;
         }
-        
-        String[] dict = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
-        
-        int cur = digits.charAt(pos) - '0';
-        for (Character c: dict[cur].toCharArray()) {
-            bt(digits, pos + 1, res, new String(tmp + c.toString()));
+        String chars = dict[digits.charAt(idx) - '0'];
+        for (char c : chars.toCharArray()) {
+            bt(digits, idx + 1, new String(tmp + c), res);
         }
     }
 }

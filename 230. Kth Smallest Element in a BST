@@ -1,0 +1,69 @@
+💡 Inorder (Stack)
+📊 O(H), O(H) - H is the height of the tree
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public int kthSmallest(TreeNode root, int k) {
+        Stack<TreeNode> st = new Stack<>();
+        int count = 0;
+        while (root != null || !st.isEmpty()) {
+            while (root != null) {
+                st.push(root);
+                root = root.left;
+            }
+            root = st.pop();
+            if (++count == k) return root.val;
+            root = root.right;
+        }
+        return -1;
+    }
+}
+
+====
+
+💡 Inorder (Recursion)
+📊 O(n), O(n)
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    private int count = 0;
+    private int res = Integer.MIN_VALUE;
+    public int kthSmallest(TreeNode root, int k) {
+        inorder(root, k);
+        return res;
+    }
+    public void inorder(TreeNode node, int k) {
+        if (node == null) return;
+        inorder(node.left, k);
+        if (++count == k) res = node.val;
+        inorder(node.right, k);
+    }
+}

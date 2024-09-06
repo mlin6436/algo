@@ -1,0 +1,27 @@
+💡 Greedy
+📊 O(n), O(1)
+
+class Solution {
+    public int leastInterval(char[] tasks, int n) {
+        Map<Character, Integer> f = new HashMap<>();
+        for (char task : tasks) {
+            f.put(task, f.getOrDefault(task, 0) + 1);
+        }
+        PriorityQueue<Integer> pq = new PriorityQueue<>((a,b) -> b - a);
+        pq.addAll(f.values());
+        int cycles = 0;
+        while (!pq.isEmpty()) {
+            List<Integer> tmp = new ArrayList<>();
+            for (int i = 0; i <= n; i++) {
+                if (!pq.isEmpty()) {
+                    int freq = pq.poll();
+                    if (freq > 1) tmp.add(freq - 1);
+                }
+                cycles++;
+                if (pq.isEmpty() && tmp.isEmpty()) break;
+            }
+            pq.addAll(tmp);
+        }
+        return cycles;
+    }
+}
